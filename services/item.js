@@ -18,10 +18,20 @@ const searchItems = async (searchKey) => {
             name: "Paula",
             lastname: "Salica"
         }, 
+        filters: [],
         items: []
     }
-    
-    items.results.map(item => {
+
+    const filters = items.filters[0].values[0].path_from_root;
+    filters.map( filter => {
+        itemsResponse['filters'].push({
+            name: filter.name
+        })
+    })
+   
+    const itemsList = items.results;
+    for (let i=0; i<=3; i++) {
+        const item = itemsList[i];
         itemsResponse['items'].push({
             id: item.id,
             title: item.title,
@@ -31,9 +41,10 @@ const searchItems = async (searchKey) => {
             },
             picture: item.thumbnail,
             condition: item.condition,
-            free_shipping: item.shipping.free_shipping
+            free_shipping: item.shipping.free_shipping,
+            city_name: item.address.city_name
         });
-    })
+    }
 
     return itemsResponse;
 }
