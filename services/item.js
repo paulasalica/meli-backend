@@ -75,6 +75,7 @@ const searchItemData = async (itemId) => {
                 currency: itemData.currency_id,
                 amount: itemData.price,
             },
+            amount: itemData.price,
             picture: itemData.pictures[0].url,
             condition: itemData.condition,
             free_shipping: itemData.shipping.free_shipping,
