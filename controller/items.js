@@ -24,7 +24,7 @@ const getItems = async(req, res) => {
 
 /**
  * @name getItemById
- * @description retrieves item data with itemId as param
+ * @description retrieves item data with itemId as a param
  * @param {} req express request
  * @param {} res express response
  * @return {}
