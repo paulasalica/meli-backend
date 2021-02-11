@@ -1,5 +1,4 @@
 const fetch = require('axios');
-
 const MERCADOLIBRE_API = 'https://api.mercadolibre.com/';
 
 /**
