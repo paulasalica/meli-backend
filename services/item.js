@@ -21,23 +21,28 @@ const searchItems = async (searchKey) => {
         filters: [],
         items: []
     }
-
-    const filters = items.filters[0].values[0].path_from_root;
-    filters.map( filter => {
+    
+    let filters = items.filters[0].values[0].path_from_root;   
+    filters.map(filter => {
         itemsResponse['filters'].push({
             name: filter.name
         })
     })
-   
+    
     const itemsList = items.results;
-    for (let i=0; i<=3; i++) {
-        const item = itemsList[i];
+    for(let i=0; i<=3; i++) {
+        const item = itemsList[i]; 
+        const price = getPrice(item.price);
+        const amount = price[0];
+        const decimals = price[1];
+
         itemsResponse['items'].push({
             id: item.id,
             title: item.title,
             price: {
                 currency: item.installments.currency_id,
-                mount: item.price
+                amount: amount,
+                decimals: decimals
             },
             picture: item.thumbnail,
             condition: item.condition,
@@ -63,6 +68,10 @@ const searchItemData = async (itemId) => {
     const itemDecription = await responseDescription.data;
     const description = itemDecription.plain_text.replace('\n\n', ' ').replace('\n', ' ');
 
+    const price = getPrice(itemData.price);
+    let amount = price[0];
+    let decimals = price[1];
+
     let itemResponse = {
         author: {
             name: "Paula",
@@ -73,7 +82,8 @@ const searchItemData = async (itemId) => {
             title: itemData.title,
             price:{
                 currency: itemData.currency_id,
-                amount: itemData.price,
+                amount: amount,
+                decimals: decimals
             },
             picture: itemData.pictures[0].url,
             condition: itemData.condition,
@@ -84,6 +94,17 @@ const searchItemData = async (itemId) => {
     }
 
    return itemResponse;
+}
+
+function getPrice(priceAmount) {
+    let amount = priceAmount;
+    let decimals = "00";
+    if (amount.toString().includes('.')) {
+        let amountSplit =  amount.toString().split('.');
+        amount = amountSplit[0];
+        decimals = amountSplit[1];
+    } 
+    return [amount, decimals];
 }
 
 exports.searchItems = searchItems;
